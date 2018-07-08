@@ -12,13 +12,17 @@
 (function() {
     'use strict';
 
-    function setFullWidthMap() {
-      var searchResultsMap = document.getElementsByClassName('search-results-map');
-      searchResultsMap[0].parentNode.style.cssText = "width: auto !important;";
+    function findAncestor (el, cls) {
+        while ((el = el.parentElement) && !el.classList.contains(cls));
+        return el;
+    }
 
-      var pn = searchResultsMap[0].parentNode.parentNode.parentNode.parentNode.parentNode;
-      pn.style.cssText = 'width: 100% !important; padding-left: 24px !important;';
-      pn.previousSibling.style.cssText = 'display: none !important';
+    function setFullWidthMap() {
+      var searchResultsMap = document.getElementsByClassName('search-results-map')[0];
+      var stickyOuterWrapper = findAncestor(searchResultsMap, 'sticky-outer-wrapper')
+      stickyOuterWrapper.parentNode.previousSibling.style.cssText = 'display: none !important';
+      searchResultsMap.parentNode.style.cssText = "width: auto !important;";
+      stickyOuterWrapper.parentNode.style.cssText = 'width: 100% !important; padding-left: 24px !important;';
 
       window.dispatchEvent(new Event('resize'));
     }
