@@ -20,8 +20,8 @@
     function setFullWidthMap() {
       var searchResultsMap = document.getElementsByClassName('search-results-map')[0];
       var stickyOuterWrapper = findAncestor(searchResultsMap, 'sticky-outer-wrapper')
-      stickyOuterWrapper.parentNode.previousSibling.style.cssText = 'display: none !important';
-      searchResultsMap.parentNode.style.cssText = "width: auto !important;";
+      stickyOuterWrapper.parentNode.parentNode.previousSibling.style.cssText = 'display: none !important';
+      searchResultsMap.parentNode.parentNode.style.cssText = "width: auto !important;";
       stickyOuterWrapper.parentNode.style.cssText = 'width: 100% !important; padding-left: 24px !important;';
 
       window.dispatchEvent(new Event('resize'));
