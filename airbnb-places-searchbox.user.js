@@ -12,6 +12,8 @@
 (function() {
     'use strict';
 
+    var markers = [];
+
     function findAncestor (el, cls) {
         while ((el = el.parentElement) && !el.classList.contains(cls));
         return el;
@@ -84,8 +86,6 @@
         searchBox.setBounds(map.getBounds());
       });
 
-      var markers = [];
-
       var infowindow = new google.maps.InfoWindow();
       var infowindowContent = document.getElementById('infowindow-content');
 
@@ -127,6 +127,8 @@
             label: place.name,
             position: place.geometry.location
           });
+
+          markers.push(marker)
 
           google.maps.event.addListener(marker, 'click', function() {
               placesService.getDetails({ placeId: place.place_id }, function (placeDetails, status) {
@@ -179,7 +181,7 @@
     }
 
     function init() {
-      setFullWidthMap();
+      // setFullWidthMap();
       initPlacesSearchBox();
     }
 

@@ -1,6 +1,6 @@
 # Airbnb Places Searchbox
 
-Userscript that adds a places searchbox to Airbnb's search results map. Also increases the map to 100% width.
+Userscript that adds a places searchbox to Airbnb's search results map.
 
 * Tested in Chrome + Tampermonkey
 
