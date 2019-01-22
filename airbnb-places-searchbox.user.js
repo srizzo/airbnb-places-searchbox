@@ -14,17 +14,32 @@
 
     var markers = [];
 
-    function findAncestor (el, cls) {
-        while ((el = el.parentElement) && !el.classList.contains(cls));
-        return el;
+    function allParents(el) {
+      var parents = []
+      while (el.parentElement != null) {
+        parents.push(el.parentElement)
+        el = el.parentElement
+      }
+      return parents
+    }
+
+    function branchRoot(trunkSel, elSel) {
+      var el = document.querySelector(elSel)
+      var trunkNodes = allParents(document.querySelector(trunkSel))
+      while (trunkNodes.indexOf(el.parentElement) < 0) {
+        el = el.parentElement
+      }
+      return el
     }
 
     function setFullWidthMap() {
-      var searchResultsMap = document.getElementsByClassName('search-results-map')[0];
-      var stickyOuterWrapper = findAncestor(searchResultsMap, 'sticky-outer-wrapper')
-      stickyOuterWrapper.parentNode.parentNode.previousSibling.style.cssText = 'display: none !important';
-      searchResultsMap.parentNode.parentNode.style.cssText = "width: auto !important;";
-      stickyOuterWrapper.parentNode.style.cssText = 'width: 100% !important; padding-left: 24px !important;';
+      var mapContainer = document.querySelector(".sticky-outer-wrapper").parentElement
+      var filtersContainer = branchRoot(".sticky-outer-wrapper", "[data-container-name='explore']")
+
+      filtersContainer.style.cssText = 'display: none !important';
+
+      mapContainer.style.cssText = 'width: 100% !important; padding-left: 24px !important;';
+      mapContainer.parentNode.style.cssText = 'width: 100% !important';
 
       window.dispatchEvent(new Event('resize'));
     }
@@ -181,7 +196,7 @@
     }
 
     function init() {
-      // setFullWidthMap();
+      setFullWidthMap();
       initPlacesSearchBox();
     }
 
