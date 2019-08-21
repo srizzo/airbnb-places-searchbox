@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         airbnb places searchbox
 // @namespace    https://github.com/srizzo/airbnb-places-searchbox
-// @version      0.1
+// @version      0.2
 // @description  Adds a places searchbox to Airbnb's search results map
 // @author       Samuel Rizzo
 // @include     http*://*.airbnb.*/s/*
@@ -185,15 +185,21 @@
     }
 
     function getMap() {
-      if (document.getElementsByClassName('search-results-map') &&
-          document.getElementsByClassName('search-results-map')[0] &&
-          document.getElementsByClassName('search-results-map')[0].firstChild &&
-          findReactComponent(document.getElementsByClassName('search-results-map')[0].firstChild) &&
-          findReactComponent(document.getElementsByClassName('search-results-map')[0].firstChild).state &&
-          findReactComponent(document.getElementsByClassName('search-results-map')[0].firstChild).state.map) {
-          return findReactComponent(document.getElementsByClassName('search-results-map')[0].firstChild).state.map._map;
+        var els = document.querySelectorAll(".sticky-inner-wrapper *")
+        for (var i = 0; i < els.length; i ++) {
+            var el = els[i]
+            var component = findReactComponent(el)
+            if (component &&
+                component._reactInternalFiber &&
+                component._reactInternalFiber.return &&
+                component._reactInternalFiber.return.stateNode &&
+                component._reactInternalFiber.return.stateNode.context &&
+                component._reactInternalFiber.return.stateNode.context.map) {
+                return component._reactInternalFiber.return.stateNode.context.map
+            }
         }
     }
+
 
     function init() {
       setFullWidthMap();
